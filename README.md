@@ -106,7 +106,7 @@ Limits: the install step has open network access to wherever the run's lockfile 
 
 ## Pins and updates
 
-Tool versions are exact: `analyzer/tools/package.json` with its lockfile, `requirements*.txt`, the sandbox image digest, and every action by commit SHA. Each pin was at least 7 days old when chosen. Dependabot proposes updates weekly with a 7 day cooldown. The review model is a flag (default `claude-sonnet-5-5`), fixed across conditions and recorded in every review result together with the Claude Code version.
+Tool versions are exact: `analyzer/tools/package.json` with its lockfile, `requirements*.txt`, the sandbox image digest, and every action by commit SHA. Dependabot proposes updates weekly, each once its release is 3 days old (cooldown); lizard, which counts the complexity metric, gets its own pull request. The review model is a flag (default `claude-sonnet-5-5`), fixed across conditions and recorded in every review result together with the Claude Code version.
 
 ## Limits
 

@@ -1,7 +1,9 @@
 # Version updates for the `uses:` pins (SHA plus version comment), the pinned tools (analyzer/tools), the Python
-# requirements and the sandbox image digest. Each update waits until the release is 7 days old (cooldown), so a release
-# withdrawn within that time never reaches a pull request. Not covered, bumped by hand: the actionlint image digest in
-# checks.yml, the Python and Node versions of the workflows (node-version must equal the Node tag of the sandbox image).
+# requirements and the sandbox image digest. Each update waits until the release is 3 days old (cooldown), so a release
+# withdrawn within that time never reaches a pull request. Not covered, bumped by hand: the actionlint image digest and
+# the zizmor version (`version:` of zizmor-action) in checks.yml, the Python and Node versions of the workflows
+# (node-version must equal the Node tag of the sandbox image; python-version follows the patch release the runner image
+# caches, so no job downloads Python).
 version: 2
 updates:
   - package-ecosystem: github-actions
@@ -9,7 +11,7 @@ updates:
     schedule:
       interval: weekly
     cooldown:
-      default-days: 7
+      default-days: 3
     groups:
       actions:
         patterns: ['*']
@@ -18,7 +20,7 @@ updates:
     schedule:
       interval: weekly
     cooldown:
-      default-days: 7
+      default-days: 3
     groups:
       tools:
         update-types: [minor, patch]
@@ -27,13 +29,15 @@ updates:
     schedule:
       interval: weekly
     cooldown:
-      default-days: 7
+      default-days: 3
     groups:
       python:
         update-types: [minor, patch]
+        # lizard counts the complexity metric: its bump gets its own pull request, where a changed count shows.
+        exclude-patterns: [lizard]
   - package-ecosystem: docker
     directory: /analyzer/sandbox
     schedule:
       interval: weekly
     cooldown:
-      default-days: 7
+      default-days: 3
