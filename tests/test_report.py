@@ -68,6 +68,18 @@ def test_warnings(tmp_path):
     assert "different models" in text
 
 
+def test_mixed_tool_versions_warn_and_the_sandbox_image_is_shown(tmp_path):
+    image = "docker.io/library/node:26.12.1-bookworm-slim@sha256:aa"
+    rs = [result("a__1", tools={"python": "3.12.15", "lizard": "1.24.1", "biome": "2.5.15", "sandbox_image": image}),
+          result("a__2", tools={"python": "3.12.16", "lizard": "1.24.3", "biome": "2.5.15", "sandbox_image": image}),
+          result("a__3", tools={"python": "3.12.16", "lizard": "1.24.3", "sandbox_image": image})]
+    warnings, provenance = build(tmp_path, rs).split("## Medians")[0], build(tmp_path, rs).split("## Provenance")[1]
+    assert "different lizard versions (1.24.1, 1.24.3)" in warnings
+    assert "different biome versions (2.5.15, none)" in warnings  # a run analyzed without the tool counts as a mix
+    assert "python" not in warnings and "sandbox_image" not in warnings
+    assert provenance.count(f"sandbox_image {image}") == 3
+
+
 def test_skipped_checks_are_listed(tmp_path):
     text = build(tmp_path, [result("a__1")])
     assert "| a__1 | typecheck | no tsconfig.json |" in text

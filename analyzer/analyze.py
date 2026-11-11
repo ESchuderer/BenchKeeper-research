@@ -550,6 +550,11 @@ def warnings_for(results, reviews) -> list[str]:
     missing = [r["run"] for r in results if not r.get("prompt_hash")]
     if missing:
         warns.append("No prompt.txt in: " + ", ".join(missing) + ".")
+    for name in sorted({k for r in results for k in r.get("tools", {})} - {"python"}):  # Python counts nothing itself
+        versions = sorted({str(r.get("tools", {}).get(name, "none")) for r in results})
+        if len(versions) > 1:
+            warns.append(f"Runs were analyzed with different {name} versions ({', '.join(versions)}); "
+                         "what that tool measures is not comparable between them.")
     for r in results:
         if (r.get("meta") or {}).get("hit_limit"):
             warns.append(f"{r['run']} hit a usage limit and may have stopped early.")
@@ -620,7 +625,7 @@ def report(args) -> None:
         lines += human_section(results, reviews, human)
     lines += ["## Provenance", "", "| Run | Sandbox | Tools | Review model, effort, CLI |", "|---|---|---|---|"]
     for r in results:
-        tools = ", ".join(f"{k} {v}" for k, v in r.get("tools", {}).items() if k != "sandbox_image")
+        tools = ", ".join(f"{k} {v}" for k, v in r.get("tools", {}).items())
         rv = reviews.get(r["run"])
         who = f"{rv['model']}, {rv['effort']}, {rv.get('tools', {}).get('claude', 'unknown')}" if rv else "none"
         lines.append(f"| {r['run']} | {r.get('sandbox')} | {tools} | {who} |")
