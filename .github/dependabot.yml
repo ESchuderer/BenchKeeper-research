@@ -1,9 +1,10 @@
 # Version updates for the `uses:` pins (SHA plus version comment), the pinned tools (analyzer/tools), the Python
-# requirements and the sandbox image digest. Each update waits until the release is 3 days old (cooldown), so a release
-# withdrawn within that time never reaches a pull request. Not covered, bumped by hand: the actionlint image digest and
-# the zizmor version (`version:` of zizmor-action) in checks.yml, the Python and Node versions of the workflows
-# (node-version must equal the Node tag of the sandbox image; python-version follows the patch release the runner image
-# caches, so no job downloads Python).
+# requirements and the sandbox image digest. Each version update waits until the release is 3 days old (cooldown), so a
+# release withdrawn within that time never reaches a pull request; .github/zizmor.yml lets zizmor accept the 3 days.
+# Not covered, bumped by hand: the actionlint image digest and the zizmor version in checks.yml (`version:` of
+# zizmor-action, which accepts only versions it knows: bump the action first), the Python and Node versions of the
+# workflows (node-version must equal the Node tag of the sandbox image; python-version follows the patch release the
+# runner image caches, so no job downloads Python).
 version: 2
 updates:
   - package-ecosystem: github-actions
@@ -33,7 +34,7 @@ updates:
     groups:
       python:
         update-types: [minor, patch]
-        # lizard counts the complexity metric: its bump gets its own pull request, where a changed count shows.
+        # lizard measures complexity: its bump gets its own pull request, so a metric change is not mixed with other bumps.
         exclude-patterns: [lizard]
   - package-ecosystem: docker
     directory: /analyzer/sandbox
