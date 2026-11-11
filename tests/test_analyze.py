@@ -28,6 +28,16 @@ def test_run_on_fixture_runs(tmp_path):
     assert good["checks"]["suppressions"]["total"] == 0
     assert bad["checks"]["hygiene"]["spec_modified"]["modified"] is True
     assert bad["checks"]["mistake_patterns"]["items"]["empty-catch"]["hits"] == 1
+    # Exact tool output on the fixtures: a tool that starts counting differently fails here, in the pull request that bumps it.
+    # The copied-in biome.json is counted too: it is the one unformatted file and 17 of the lines jscpd sees.
+    lint = lambda r: {k: v for k, v in r["checks"]["analyzer"].items() if k != "secs"}  # noqa: E731
+    assert lint(good) == {"status": "ok", "errors": 0, "warnings": 0, "infos": 0, "unformatted_files": 1, "top_rules": {}}
+    assert lint(bad) == {"status": "ok", "errors": 0, "warnings": 1, "infos": 0, "unformatted_files": 1,
+                         "top_rules": {"lint/correctness/noUnusedVariables": 1}}
+    assert good["checks"]["complexity"] == {"status": "ok", "functions": 6, "avg_ccn": 1.17, "functions_ccn_over_15": 0}
+    assert bad["checks"]["complexity"] == {"status": "ok", "functions": 4, "avg_ccn": 1.75, "functions_ccn_over_15": 0}
+    assert good["checks"]["duplication"] == {"status": "ok", "duplicated_pct": 0.0, "clones": 0}
+    assert bad["checks"]["duplication"] == {"status": "ok", "duplicated_pct": pytest.approx(20.93, abs=0.01), "clones": 1}
     assert good["meta"]["tokens_m"] == 1.2 and good["prompt_hash"] == bad["prompt_hash"]
     assert good["tools"]["sandbox_image"] == sandbox.image()
     az.report(type("A", (), {"results": [str(tmp_path / "with-setup__1.json"), str(tmp_path / "baseline__1.json")],
