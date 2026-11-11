@@ -82,11 +82,10 @@ OVERALL_SCHEMA = {
 }
 APP_STARTED_CAP = 3  # rating cap when the app does not start
 # The browser tester acts as a user: no tool that runs code, reads host files or calls tools the app defines.
-# Together the two lists are every tool the pinned server offers, so the model is offered only tools it may call.
 BROWSER_TOOLS = ["navigate", "navigate_back", "tabs", "snapshot", "find", "take_screenshot", "click", "hover", "drag",
                  "type", "press_key", "fill_form", "select_option", "handle_dialog", "wait_for", "console_messages",
                  "network_requests", "network_request", "emulate_media", "resize", "close"]
-BROWSER_DENIED = ["run_code_unsafe", "evaluate", "file_upload", "drop"]  # a denied tool is not offered at all
+BROWSER_DENIED = ["run_code_unsafe", "evaluate", "file_upload", "drop"]  # not offered at all; a tool in neither list is refused when called
 
 
 # ---------------------------------------------------------------- blinding
