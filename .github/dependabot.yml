@@ -34,7 +34,7 @@ updates:
     groups:
       python:
         update-types: [minor, patch]
-        # lizard measures complexity: its bump gets its own pull request, so a metric change is not mixed with other bumps.
+        # lizard measures complexity: its own pull request keeps a metric change apart from other bumps.
         exclude-patterns: [lizard]
   - package-ecosystem: docker
     directory: /analyzer/sandbox
