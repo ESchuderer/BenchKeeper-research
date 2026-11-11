@@ -550,11 +550,12 @@ def warnings_for(results, reviews) -> list[str]:
     missing = [r["run"] for r in results if not r.get("prompt_hash")]
     if missing:
         warns.append("No prompt.txt in: " + ", ".join(missing) + ".")
-    for name in sorted({k for r in results for k in r.get("tools", {})} - {"python"}):  # Python counts nothing itself
-        versions = sorted({str(r.get("tools", {}).get(name, "none")) for r in results})
+    # Only what a metric depends on: the recorded tsc is the host's, and the typecheck uses the run's own.
+    for key, label in (("biome", "Biome"), ("jscpd", "jscpd"), ("lizard", "lizard"), ("sandbox_image", "sandbox image")):
+        versions = sorted({str(r.get("tools", {}).get(key, "none")) for r in results})
         if len(versions) > 1:
-            warns.append(f"Runs were analyzed with different {name} versions ({', '.join(versions)}); "
-                         "what that tool measures is not comparable between them.")
+            warns.append(f"Runs were analyzed with different {label} versions ({', '.join(versions)}); "
+                         "results that depend on it are not comparable between them.")
     for r in results:
         if (r.get("meta") or {}).get("hit_limit"):
             warns.append(f"{r['run']} hit a usage limit and may have stopped early.")

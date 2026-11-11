@@ -29,6 +29,7 @@ def test_run_on_fixture_runs(tmp_path):
     assert bad["checks"]["hygiene"]["spec_modified"]["modified"] is True
     assert bad["checks"]["mistake_patterns"]["items"]["empty-catch"]["hits"] == 1
     # Exact tool output on the fixtures: a tool that starts counting differently fails here, in the pull request that bumps it.
+    # The copied-in biome.json is counted too: it is the one unformatted file and 17 of the lines jscpd sees.
     lint = lambda r: {k: v for k, v in r["checks"]["analyzer"].items() if k != "secs"}  # noqa: E731
     assert lint(good) == {"status": "ok", "errors": 0, "warnings": 0, "infos": 0, "unformatted_files": 1, "top_rules": {}}
     assert lint(bad) == {"status": "ok", "errors": 0, "warnings": 1, "infos": 0, "unformatted_files": 1,

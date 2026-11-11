@@ -18,7 +18,7 @@ Per run, for JS/TS projects (Dart/Flutter runs are rejected for now):
 | Self-tests, acceptance tests | opt-in; tests the agent wrote are reported but not comparable, your own tests in `acceptance/` are |
 | Model review | blinded code review, browser test of the running app, overall rating from 1 to 10 |
 
-Per report: medians per condition, a per-run table, rating per agent dollar, skipped checks, and warnings (fewer than 3 reps, different prompts, usage-limit hits, copied code between runs, different versions of a tool or of the sandbox image, different review models, a spec too easy to separate setups), and per run the tool versions and the sandbox image it was analyzed with. A blank rating sheet in random order lets you rate runs yourself; the report then shows the rank correlation between your rating and the model's.
+Per report: medians per condition, a per-run table, rating per agent dollar, skipped checks, the tool versions and sandbox image of each run, and warnings (fewer than 3 reps, different prompts, usage-limit hits, copied code between runs, different versions of Biome, jscpd, lizard or the sandbox image, different review models, a spec too easy to separate setups). A blank rating sheet in random order lets you rate runs yourself; the report then shows the rank correlation between your rating and the model's.
 
 A model rating is noisy and a Claude reviewer may favor Claude-written code. Compare medians over at least 3 reps, keep the review model fixed, and read the bug list before the number.
 
