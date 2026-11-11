@@ -98,9 +98,10 @@ def test_browser_tester_gets_named_tools_only_and_none_that_runs_code_or_reads_h
             "mcp__playwright__browser_take_screenshot"} <= set(allowed)
     for rule in allowed:  # one tool per rule: never the whole server, never a pattern
         assert rule.startswith("mcp__playwright__browser_") and "*" not in rule, rule
-    for tool in ("run_code_unsafe", "run_code", "evaluate", "file_upload", "drop", "webmcp_call", "install"):
-        assert f"mcp__playwright__browser_{tool}" not in allowed
-    assert "mcp__playwright__browser_run_code_unsafe" in argv[argv.index("--disallowedTools") + 1].split(",")
+    denied = argv[argv.index("--disallowedTools") + 1].split(",")
+    for tool in ("run_code_unsafe", "evaluate", "file_upload", "drop"):
+        assert f"mcp__playwright__browser_{tool}" not in allowed and f"mcp__playwright__browser_{tool}" in denied
+    assert "mcp__playwright__browser_webmcp_call" not in allowed
 
 
 def test_stub_review_is_marked_and_complete(tmp_path):

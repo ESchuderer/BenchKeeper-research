@@ -82,11 +82,11 @@ OVERALL_SCHEMA = {
 }
 APP_STARTED_CAP = 3  # rating cap when the app does not start
 # The browser tester acts as a user: no tool that runs code, reads host files or calls tools the app defines.
-BROWSER_TOOLS = ["navigate", "navigate_back", "navigate_forward", "reload", "tabs", "snapshot", "find",
-                 "take_screenshot", "click", "hover", "drag", "type", "press_key", "press_sequentially", "fill_form",
-                 "select_option", "check", "uncheck", "handle_dialog", "wait_for", "console_messages",
-                 "network_requests", "resize", "close"]
-BROWSER_DENIED = ["run_code_unsafe"]  # denied by name as well, so the tool is not even offered to the model
+# Together the two lists are every tool the pinned server offers, so the model is offered only tools it may call.
+BROWSER_TOOLS = ["navigate", "navigate_back", "tabs", "snapshot", "find", "take_screenshot", "click", "hover", "drag",
+                 "type", "press_key", "fill_form", "select_option", "handle_dialog", "wait_for", "console_messages",
+                 "network_requests", "network_request", "emulate_media", "resize", "close"]
+BROWSER_DENIED = ["run_code_unsafe", "evaluate", "file_upload", "drop"]  # a denied tool is not offered at all
 
 
 # ---------------------------------------------------------------- blinding
@@ -294,7 +294,8 @@ def explore_prompt(url: str, items: list[dict]) -> str:
         "directory describes the task. Do a smoke test, then try every feature in the spec, then edge cases "
         "(empty input, very long text, rapid repeated clicks, back and reload). Take a screenshot for each bug and "
         "name its file. Report each feature as works, partial, broken or not_tested; failures that only come from "
-        "web-only plugin limits are not bugs. Score functionality and UX from 1 to 5 with evidence. Then do each "
+        "web-only plugin limits are not bugs. You cannot choose files: when a file picker opens, report that "
+        "feature as not_tested and go on in a new tab. Score functionality and UX from 1 to 5 with evidence. Then do each "
         "checklist step and report pass, fail or not_applicable:\n" + steps)
 
 
