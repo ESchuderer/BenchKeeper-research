@@ -81,6 +81,12 @@ OVERALL_SCHEMA = {
     "properties": {"rating": {"type": "integer", "minimum": 1, "maximum": 10}, "rationale": {"type": "string"}},
 }
 APP_STARTED_CAP = 3  # rating cap when the app does not start
+# The browser tester acts as a user: no tool that runs code, reads host files or calls tools the app defines.
+BROWSER_TOOLS = ["navigate", "navigate_back", "navigate_forward", "reload", "tabs", "snapshot", "find",
+                 "take_screenshot", "click", "hover", "drag", "type", "press_key", "press_sequentially", "fill_form",
+                 "select_option", "check", "uncheck", "handle_dialog", "wait_for", "console_messages",
+                 "network_requests", "resize", "close"]
+BROWSER_DENIED = ["run_code_unsafe"]  # denied by name as well, so the tool is not even offered to the model
 
 
 # ---------------------------------------------------------------- blinding
@@ -147,7 +153,9 @@ def claude_argv(exe: str, prompt: str, schema: dict, *, model: str, effort: str,
             "--no-session-persistence", "--permission-mode", "dontAsk", "--tools", ",".join(tools),
             "--append-system-prompt", DATA_RULE]
     if mcp_config:
-        argv += ["--strict-mcp-config", "--mcp-config", str(mcp_config), "--allowedTools", "mcp__playwright"]
+        argv += ["--strict-mcp-config", "--mcp-config", str(mcp_config),
+                 "--allowedTools", ",".join(f"mcp__playwright__browser_{t}" for t in BROWSER_TOOLS),
+                 "--disallowedTools", ",".join(f"mcp__playwright__browser_{t}" for t in BROWSER_DENIED)]
     return argv
 
 
