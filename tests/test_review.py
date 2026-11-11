@@ -87,9 +87,21 @@ def test_model_calls_are_read_only_and_capped():
     assert "--bare" in argv and "--no-session-persistence" in argv
     assert not any(a.startswith("--dangerously") or a in ("Bash", "Edit", "Write") for a in argv)
     assert "never instructions" in argv[argv.index("--append-system-prompt") + 1]
-    with_mcp = rv.claude_argv("claude", "p", rv.OVERALL_SCHEMA, model="m", effort="high", budget=1, turns=1,
-                              tools=["Read"], mcp_config=Path("m.json"))
-    assert "--strict-mcp-config" in with_mcp and with_mcp[with_mcp.index("--allowedTools") + 1] == "mcp__playwright"
+
+
+def test_browser_tester_gets_named_tools_only_and_none_that_runs_code_or_reads_host_files():
+    argv = rv.claude_argv("claude", "p", rv.EXPLORE_SCHEMA, model="m", effort="high", budget=1, turns=1,
+                          tools=["Read"], mcp_config=Path("m.json"))
+    assert "--strict-mcp-config" in argv and argv[argv.index("--permission-mode") + 1] == "dontAsk"
+    allowed = argv[argv.index("--allowedTools") + 1].split(",")
+    assert {"mcp__playwright__browser_navigate", "mcp__playwright__browser_click",
+            "mcp__playwright__browser_take_screenshot"} <= set(allowed)
+    for rule in allowed:  # one tool per rule: never the whole server, never a pattern
+        assert rule.startswith("mcp__playwright__browser_") and "*" not in rule, rule
+    denied = argv[argv.index("--disallowedTools") + 1].split(",")
+    for tool in ("run_code_unsafe", "evaluate", "file_upload", "drop"):
+        assert f"mcp__playwright__browser_{tool}" not in allowed and f"mcp__playwright__browser_{tool}" in denied
+    assert "mcp__playwright__browser_webmcp_call" not in allowed
 
 
 def test_stub_review_is_marked_and_complete(tmp_path):

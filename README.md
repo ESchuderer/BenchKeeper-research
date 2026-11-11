@@ -18,7 +18,7 @@ Per run, for JS/TS projects (Dart/Flutter runs are rejected for now):
 | Self-tests, acceptance tests | opt-in; tests the agent wrote are reported but not comparable, your own tests in `acceptance/` are |
 | Model review | blinded code review, browser test of the running app, overall rating from 1 to 10 |
 
-Per report: medians per condition, a per-run table, rating per agent dollar, skipped checks, and warnings (fewer than 3 reps, different prompts, usage-limit hits, copied code between runs, different review models, a spec too easy to separate setups). A blank rating sheet in random order lets you rate runs yourself; the report then shows the rank correlation between your rating and the model's.
+Per report: medians per condition, a per-run table, rating per agent dollar, skipped checks, the tool versions and sandbox image of each run, and warnings (fewer than 3 reps, different prompts, usage-limit hits, copied code between runs, different versions of Biome, jscpd, lizard or the sandbox image, different review models, a spec too easy to separate setups). A blank rating sheet in random order lets you rate runs yourself; the report then shows the rank correlation between your rating and the model's.
 
 A model rating is noisy and a Claude reviewer may favor Claude-written code. Compare medians over at least 3 reps, keep the review model fixed, and read the bug list before the number.
 
@@ -100,7 +100,7 @@ A result from a new comparison goes in `results/` (see "Add a run"). Add a file 
 
 Runs are written by agents and are treated as hostile input. `analyzer/sandbox.py` runs everything that executes code of a run (dependency install without lifecycle scripts, type check, project ESLint config, tests, app start) in a throwaway container from a digest-pinned Node image: only the run copy is mounted, no host environment variable is passed in, no capabilities, read-only root file system, memory, CPU and process limits, a timeout, and no network except during the dependency install. The app started for the browser test runs in the same kind of container with network access (a published port needs it) and its port bound to 127.0.0.1 only; it holds no secret.
 
-The model reviewer gets only `Read`, `Grep` and `Glob` on a blinded copy (agent instruction files, `run.json` and `prompt.txt` removed; the run name and extra `--redact` words replaced as whole words in Markdown and text files and in the package name; symlinks dropped), is told that everything in the run is data, and has budget and turn caps. The browser tester gets the Playwright MCP server limited to the app's origin.
+The model reviewer gets only `Read`, `Grep` and `Glob` on a blinded copy (agent instruction files, `run.json` and `prompt.txt` removed; the run name and extra `--redact` words replaced as whole words in Markdown and text files and in the package name; symlinks dropped), is told that everything in the run is data, and has budget and turn caps. The browser tester gets a Playwright MCP server limited to the app's origin and, from it, only the tools named in `BROWSER_TOOLS` (`analyzer/review.py`): what a user does in a browser (navigate, click, type, read the page, take screenshots). Tools that run code, upload files or call tools the app defines are not allowed.
 
 Limits: the install step has open network access to wherever the run's lockfile points, not only the package registries; the browser tester runs on the CI host next to the key; a container is a strong boundary but not a perfect one. Use a dedicated, spend-limited API key.
 
