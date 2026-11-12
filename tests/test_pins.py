@@ -80,4 +80,4 @@ def test_dependabot_covers_every_ecosystem_with_cooldown():
     text = (ROOT / ".github" / "dependabot.yml").read_text()
     ecosystems = re.findall(r"package-ecosystem:\s*(\S+)", text)
     assert sorted(ecosystems) == ["docker", "github-actions", "npm", "pip"]
-    assert len(re.findall(r"default-days:\s*7\b", text)) == len(ecosystems)
+    assert len(re.findall(r"default-days:\s*3\b", text)) == len(ecosystems)
