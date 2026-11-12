@@ -79,6 +79,8 @@ def test_mixed_tool_versions_warn_and_the_sandbox_image_is_shown(tmp_path):
     assert "different Biome versions (2.5.15, none)" in warnings  # a run analyzed without the tool counts as a mix
     assert "python" not in warnings and "tsc" not in warnings and "sandbox image" not in warnings
     assert provenance.count(f"sandbox_image {image}") == 3
+    rs[0]["tools"]["metrics"] = 2  # runs from before the version note have none
+    assert "different metric definition versions (2, none)" in build(tmp_path, rs).split("## Medians")[0]
     rs[0]["tools"]["sandbox_image"] = image.replace("sha256:aa", "sha256:bb")
     assert "different sandbox image versions" in build(tmp_path, rs).split("## Medians")[0]
 

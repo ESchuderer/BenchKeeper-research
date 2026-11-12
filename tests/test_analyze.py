@@ -29,17 +29,17 @@ def test_run_on_fixture_runs(tmp_path):
     assert bad["checks"]["hygiene"]["spec_modified"]["modified"] is True
     assert bad["checks"]["mistake_patterns"]["items"]["empty-catch"]["hits"] == 1
     # Exact tool output on the fixtures: a tool that starts counting differently fails here, in the pull request that bumps it.
-    # The copied-in biome.json is counted too: it is the one unformatted file and 17 of the lines jscpd sees.
+    # The fixed Biome config is not a file of the run (metrics 2): before, it was the one unformatted file and 17 of the lines jscpd saw.
     lint = lambda r: {k: v for k, v in r["checks"]["analyzer"].items() if k != "secs"}  # noqa: E731
-    assert lint(good) == {"status": "ok", "errors": 0, "warnings": 0, "infos": 0, "unformatted_files": 1, "top_rules": {}}
-    assert lint(bad) == {"status": "ok", "errors": 0, "warnings": 1, "infos": 0, "unformatted_files": 1,
+    assert lint(good) == {"status": "ok", "errors": 0, "warnings": 0, "infos": 0, "unformatted_files": 0, "top_rules": {}}
+    assert lint(bad) == {"status": "ok", "errors": 0, "warnings": 1, "infos": 0, "unformatted_files": 0,
                          "top_rules": {"lint/correctness/noUnusedVariables": 1}}
     assert good["checks"]["complexity"] == {"status": "ok", "functions": 6, "avg_ccn": 1.17, "functions_ccn_over_15": 0}
-    assert bad["checks"]["complexity"] == {"status": "ok", "functions": 4, "avg_ccn": 1.75, "functions_ccn_over_15": 0}
+    assert bad["checks"]["complexity"] == {"status": "ok", "functions": 5, "avg_ccn": 1.6, "functions_ccn_over_15": 0}
     assert good["checks"]["duplication"] == {"status": "ok", "duplicated_pct": 0.0, "clones": 0}
-    assert bad["checks"]["duplication"] == {"status": "ok", "duplicated_pct": pytest.approx(20.93, abs=0.01), "clones": 1}
+    assert bad["checks"]["duplication"] == {"status": "ok", "duplicated_pct": pytest.approx(34.62, abs=0.01), "clones": 1}
     assert good["meta"]["tokens_m"] == 1.2 and good["prompt_hash"] == bad["prompt_hash"]
-    assert good["tools"]["sandbox_image"] == sandbox.image()
+    assert good["tools"]["sandbox_image"] == sandbox.image() and good["tools"]["metrics"] == az.METRICS_VERSION
     az.report(type("A", (), {"results": [str(tmp_path / "with-setup__1.json"), str(tmp_path / "baseline__1.json")],
                              "md": str(tmp_path / "r.md"), "human": None}))
     assert "| Run | LOC" in (tmp_path / "r.md").read_text()
@@ -50,13 +50,14 @@ def test_fixed_config_replaces_the_run_config(tmp_path, monkeypatch):
     (run / "biome.json").write_text('{"linter": {"enabled": false}}')
     seen = {}
 
-    def spy(work):
-        seen["config"] = json.loads((work / "biome.json").read_text())
+    def spy(work, config=None):
+        seen["config"] = json.loads(((config or work) / "biome.json").read_text())
+        seen["in_work"] = (work / "biome.json").exists() and config is not None
         return az.skipped("spy")
 
     monkeypatch.setattr(az, "biome", spy)
     az.run(args(run, tmp_path / "o.json"))
-    assert seen["config"]["linter"]["enabled"] is True
+    assert seen["config"]["linter"]["enabled"] is True and not seen["in_work"]
     assert json.loads((tmp_path / "o.json").read_text())["config_overridden"] == ["biome.json"]
     seen.clear()
     az.run(args(run, tmp_path / "o2.json", use_project_config=True))

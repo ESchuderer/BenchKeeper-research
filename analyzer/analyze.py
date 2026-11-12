@@ -45,6 +45,8 @@ GENERATED = re.compile(r"\.d\.ts$|\.min\.js$")
 MIN_REPS = 3
 COPY_THRESHOLD = 0.25
 SATURATION_RATING = 9
+# 2: the analyzer's own copied-in biome.json no longer counts as a file of the run (1 or absent: it did).
+METRICS_VERSION = 2
 # Escape hatches that make linters and type checkers go quiet.
 SUPPRESSIONS = [r"@ts-ignore", r"@ts-expect-error", r"@ts-nocheck", r"eslint-disable",
                 r"biome-ignore", r":\s*any\b", r"\bas\s+any\b"]
@@ -138,6 +140,7 @@ def tool_versions() -> dict:
         out["lizard"] = lizard.version
     except ImportError:
         pass
+    out["metrics"] = METRICS_VERSION
     out["sandbox_image"] = sandbox.image()
     return out
 
@@ -154,11 +157,13 @@ def install(work: Path, mode: str) -> dict:
     return failed(res, "install")
 
 
-def biome(work: Path) -> dict:
+def biome(work: Path, config: Path | None = None) -> dict:
     exe = tool("biome")
     if not exe:
         return skipped("biome not installed")
-    res = host_run([exe, "check", "--reporter=json", "--colors=off", "--max-diagnostics=none", "."], work)
+    # The fixed config lives outside the copy, so it is not one of the files Biome checks.
+    flags = [f"--config-path={config}"] if config else []
+    res = host_run([exe, "check", "--reporter=json", "--colors=off", "--max-diagnostics=none", *flags, "."], work)
     m = re.search(r"\{.*\}", res["out"], re.S)
     if not m:
         return failed(res, "biome")
@@ -328,11 +333,14 @@ def run(args) -> None:
         work = Path(tmp) / "project"
         safe_copy(project, work)
         overridden = []
+        config = None
         if not args.use_project_config:
             # Same rules for every run, so a run cannot win by loosening its own lint config.
             for old in list(work.glob("biome.json*")):
                 old.unlink()
-            shutil.copy(Path(args.config_dir) / "biome.json", work / "biome.json")
+            config = Path(tmp) / "config"
+            config.mkdir()
+            shutil.copy(Path(args.config_dir) / "biome.json", config / "biome.json")
             overridden.append("biome.json")
         files = source_files(work)
         loc = count_loc(files)
@@ -345,7 +353,7 @@ def run(args) -> None:
         c: dict = {}
         c["install"] = install(work, mode) if mode else no_exec
         installed = c["install"].get("status") == "ok"
-        c["analyzer"] = biome(work)
+        c["analyzer"] = biome(work, config)
         c["typecheck"] = tsc(work, mode) if mode and installed else no_exec if not mode else skipped("install failed")
         c["eslint"] = eslint(work, mode) if mode and installed else no_exec if not mode else skipped("install failed")
         c["complexity"] = complexity(files)
@@ -551,7 +559,8 @@ def warnings_for(results, reviews) -> list[str]:
     if missing:
         warns.append("No prompt.txt in: " + ", ".join(missing) + ".")
     # Only what a metric depends on: the recorded tsc is the host's, and the typecheck uses the run's own.
-    for key, label in (("biome", "Biome"), ("jscpd", "jscpd"), ("lizard", "lizard"), ("sandbox_image", "sandbox image")):
+    for key, label in (("biome", "Biome"), ("jscpd", "jscpd"), ("lizard", "lizard"), ("sandbox_image", "sandbox image"),
+                       ("metrics", "metric definition")):
         versions = sorted({str(r.get("tools", {}).get(key, "none")) for r in results})
         if len(versions) > 1:
             warns.append(f"Runs were analyzed with different {label} versions ({', '.join(versions)}); "
