@@ -20,6 +20,8 @@ Per run, for JS/TS projects (Dart/Flutter runs are rejected for now):
 
 Per report: medians per condition, a per-run table, rating per agent dollar, skipped checks, the tool versions and sandbox image of each run, and warnings (fewer than 3 reps, different prompts, usage-limit hits, copied code between runs, different versions of Biome, jscpd, lizard or the sandbox image, different review models, a spec too easy to separate setups). A blank rating sheet in random order lets you rate runs yourself; the report then shows the rank correlation between your rating and the model's.
 
+Metric version: every result records `tools.metrics`. Version 2 (from 2026-11-12) no longer counts the analyzer's own copied-in `biome.json`: one unformatted file fewer per run and a higher duplication percentage (baseline fixture: 20.93 % before, 34.62 % now). Results without `tools.metrics` are version 1; the report warns when versions are mixed, and those figures are not comparable.
+
 A model rating is noisy and a Claude reviewer may favor Claude-written code. Compare medians over at least 3 reps, keep the review model fixed, and read the bug list before the number.
 
 ## Layout
