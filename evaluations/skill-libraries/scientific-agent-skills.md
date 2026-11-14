@@ -8,11 +8,11 @@
 - Vendor paper without a task-level evaluation ([arXiv 2609.00065](https://arxiv.org/abs/2609.00065)).
 - Domain science (biology, chemistry, medicine). Many skills install Python packages and need API keys.
 
-## Quality bar check (issue 151, 2026-10-24)
+## Quality bar check (2026-10-24)
 
 Source [K-Dense-AI/scientific-agent-skills](https://github.com/K-Dense-AI/scientific-agent-skills) at `a1043ef544e3a100c28e70a736b6cf32554d0677` (2026-10-12). The evaluation above covers the repository, not each skill; per-skill evidence is recorded here.
 
-Grading used (the same for every source; the bar is in [library quality bar](library-quality-bar.md)): pass, borderline (soft problems only, or a reading of the bar that the owner decides) or fail (a hard limit broken). Overall is the worst point.
+Grading used (the same for every source; the bar is in [library quality bar](library-quality-bar.md)): pass, borderline (soft problems only, or a reading of the bar) or fail (a hard limit broken). Overall is the worst point.
 
 | Skill | 1 Runs as installed | 2 License | 3 Authoring | 4 Earns its place | 5 Maintained | Overall |
 |---|---|---|---|---|---|---|
@@ -63,7 +63,7 @@ Measured at the pin:
 Findings (every fail and borderline with file and line or URL):
 
 - `scientific-critical-thinking`: fail.
-  - Point 1, fail: `SKILL.md:66-72` tells the agent to run `python skills/scientific-schematics/scripts/generate_schematic.py` from the repository root: a sibling skill that is not in this folder or the library, and it needs `OPENROUTER_API_KEY` and sends prompts to OpenRouter (`:78`). The section is optional, the script path is the preferred one. Owner call: fail or borderline.
+  - Point 1, fail: `SKILL.md:66-72` tells the agent to run `python skills/scientific-schematics/scripts/generate_schematic.py` from the repository root: a sibling skill that is not in this folder or the library, and it needs `OPENROUTER_API_KEY` and sends prompts to OpenRouter (`:78`). The section is optional, the script path is the preferred one. Grade: fail or borderline.
   - Point 3, borderline: No "use when" clause in the description (`:3`); `:142` "ROBINS-I V2 November 2025 draft" ages.
   - Point 4, borderline: The description (`:3`) lists "experimental design validity" and "statistical interpretation", the same subjects as `experimental-design` and `statistical-analysis` (`SKILL.md:3` of both); it hands peer review writing to `peer-review`. Distinct core: judging claims, bias, GRADE.
 - `experimental-design`: borderline.
@@ -135,7 +135,7 @@ Source notes:
 - Open third-party defects after the pin: #260 (dead endpoints, broken install commands and stale compatibility floors across 14 skills), #317, #318, #319, #323, #348 (`citation-management`), #322 (`markitdown`), #325 (`paper-lookup`), #349, #350. Prior fixed defect: #279 (`experimental-design` dropped a treatment arm for fractional allocation ratios), fixed in #280. The repository's security scan report is maintainer evidence.
 - Link check (116 URLs from the 19 `SKILL.md` files): three 404s (`sympy:391`, `uncertainty-and-units:388`, `exploratory-data-analysis:289`, all reference lists); 14 more answered 403, 429 or 405 (bot blocking, unverified).
 
-Removal: `scientific-critical-thinking` was removed on the owner's decision in [issue 151](https://github.com/ESchuderer/BenchKeeper/issues/151) and is in [library exclusions](library-exclusions.md); the borderline skills stay.
+Removal: `scientific-critical-thinking` is removed and listed in [library exclusions](library-exclusions.md); the borderline skills stay.
 
 ## Decision
 

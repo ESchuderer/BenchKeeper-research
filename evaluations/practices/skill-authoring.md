@@ -23,7 +23,7 @@ BenchKeeper skills, checked 2026-10-28 (all six plugin skills; the table heading
 
 | Point | `benchkeeper:workflow`, `benchkeeper:setting-up-projects`, `benchkeeper:maintaining-repos` (before setup-v6.0: `following-dev-workflow`. setup-v2.5 to v3.4: also `setting-up-machine`, without the plugin prefix. Before setup-v2.5: `sdlc`, `global-setup`, `project-setup`, `maintain`) |
 |---|---|
-| Name format | Valid. The patterns were mixed (acronym, two noun phrases, one verb). Renamed to gerunds (setup-v2.5, owner decision). The benchmark image installs pinned copies under the old names (`bench/arms/bk-skills/`). |
+| Name format | Valid. The patterns were mixed (acronym, two noun phrases, one verb). Renamed to gerunds (setup-v2.5). The benchmark image installs pinned copies under the old names (`bench/arms/bk-skills/`). |
 | Description | 119 to 482 characters, what and when in each. Rewritten in third person (setup-v2.5). |
 | Body size, references | `SKILL.md` 20 to 137 lines, no reference file over 100 lines (so no table of contents needed). No nested reference files. |
 | Checklists, defaults | `workflow` keeps a checklist of five or six steps per tier inline (the playbooks hold detail only); one default per decision, the alternatives behind a condition. |

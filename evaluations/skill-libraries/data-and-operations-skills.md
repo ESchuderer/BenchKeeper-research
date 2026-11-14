@@ -76,11 +76,11 @@ Per skill:
   - Stack bias. Examples name .NET tools (Hangfire, Bogus, `dotnet list package`) and Azure, AWS, GCP key stores. Retention defaults (analytics 13 months, auth logs 12 to 24 months, inactive accounts 12 months) are the skill's recommendations; the sources it cites are CNIL, ENISA, OWASP and NIST guidance, which this check did not open (unverified).
   - Scope: personal data in EU engineering work, as the pick-when says. No scripts, no URLs, no network calls, no credential requests. Secrets section recommends `gitleaks` or `detect-secrets` pre-commit hooks, which conflicts with this repository's own choice (no secret hook) but only applies to projects that install the skill, and is advice, not an action.
 
-## Quality bar check (issue 151, 2026-10-24)
+## Quality bar check (2026-10-24)
 
 Pins as in the table above: anthropics/knowledge-work-plugins `f652327` (2026-10-14), github/awesome-copilot `772e239` (2026-10-15).
 
-Grading used (the same for every source; the bar is in [library quality bar](library-quality-bar.md)): pass, borderline (soft problems only, or a reading of the bar that the owner decides) or fail (a hard limit broken). Overall is the worst point.
+Grading used (the same for every source; the bar is in [library quality bar](library-quality-bar.md)): pass, borderline (soft problems only, or a reading of the bar) or fail (a hard limit broken). Overall is the worst point.
 
 | Skill | 1 Runs as installed | 2 License | 3 Authoring | 4 Earns its place | 5 Maintained | Overall |
 |---|---|---|---|---|---|---|
@@ -127,7 +127,7 @@ Source notes:
 - skills.sh (2026-10-24): `validate-data` 3.7K installs, `incident-response` 5.8K, `compliance-check` 3.3K, `synthesize-research` 3.0K (Snyk Warn, no reason stated), `gdpr-compliant` 1.6K. Scans otherwise pass.
 - Independent evidence of effect: none found for any of the five (GitHub issue search, skills.sh, web search). Third-party fork scans of awesome-copilot report `gdpr-compliant` "2/2 checks passed" in their own spec-compliance tooling, which does not catch the case mismatch and the missing `operations.md`.
 
-Removal: none made. The owner decides on the fails and borderline cases in [issue 151](https://github.com/ESchuderer/BenchKeeper/issues/151).
+Removal: none made.
 
 ## Decision
 
@@ -135,7 +135,7 @@ Removal: none made. The owner decides on the fails and borderline cases in [issu
 - `incident-response`: keep in the operations pack, proposed for deployed services with on-call or postmortems. Works without connectors, as templates and a severity table.
 - `compliance-check`: keep in the operations pack, proposed only for regulated products. Legal-team framing and not legal advice: the output is a checklist for a human reviewer, and its figures are unverified in part.
 - `synthesize-research`: keep as a single skill (in no pack), proposed when the repository holds interviews, surveys or feedback. Note the Snyk Warn on skills.sh with no stated reason.
-- `gdpr-compliant`: keep in the operations pack with the defects recorded above, or hold it until upstream fixes the two reference paths and the lost example markers (the owner decides). Not a removal finding on its own, since the main file is self-contained. Report the broken paths and `operations.md` upstream to awesome-copilot if kept.
+- `gdpr-compliant`: keep in the operations pack with the defects recorded above, or hold it until upstream fixes the two reference paths and the lost example markers. Not a removal finding on its own, since the main file is self-contained. Report the broken paths and `operations.md` upstream to awesome-copilot if kept.
 - None of the five argues for removal under the exclusion criteria in [library-exclusions](library-exclusions.md): no run-time downloads, no hooks, no telemetry, no files outside the skill that its workflow needs, licenses permissive. Retest with a task brief that names a skill (for example a postmortem or a GDPR PR review) before any of them moves into a default set.
 
 [All evaluations](../../EVALUATIONS.md)

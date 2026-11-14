@@ -113,7 +113,7 @@ So a preview sandbox with a domain allowlist would need: `registry.npmjs.org`, `
 
 For #286 (facts only, no decision):
 - bubblewrap gives all-or-nothing network. A limit to registry hosts needs a host-side proxy reached through a Unix socket, which `srt` ships on Linux, macOS and (alpha) Windows.
-- The rehearsal runs the real command, so a sandbox with no network defeats it. Either the allowlist above, or the preview is skipped where no sandbox exists (the owner's second decision in #286).
+- The rehearsal runs the real command, so a sandbox with no network defeats it. Either the allowlist above, or the preview is skipped where no sandbox exists.
 - A write confinement alone (`--ro-bind` the system, `--bind` the scratch folder) stops absolute-path writes, which is the first gap named in `docs/security.md:87`.
 - On Windows nothing documented gives both gaps without installing something privileged (`srt` alpha needs an elevated install) or an unreleased SDK (MXC preview).
 

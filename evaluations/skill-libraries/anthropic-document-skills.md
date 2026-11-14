@@ -1,6 +1,6 @@
 # Anthropic document skills
 
-[Repository](https://github.com/anthropics/skills), Category: skill libraries, Checked 2026-10-14 and 2026-10-24, Decision: Removed from the library (issue 151, setup-v6.10)
+[Repository](https://github.com/anthropics/skills), Category: skill libraries, Checked 2026-10-14 and 2026-10-24, Decision: Removed from the library (setup-v6.10)
 
 ## Advertised
 
@@ -10,11 +10,11 @@
 
 - [DocOps, arXiv 2607.19865](https://arxiv.org/abs/2607.19865) (210 tasks): Claude Code with Sonnet 4.6 scored 0.519 with skills vs 0.552 without. Claude Code harness average across models: 664.9K vs 590.0K tokens per task. Codex with GPT-5.5 scored 0.671 vs 0.648.
 
-## Quality bar check (issue 151, 2026-10-24)
+## Quality bar check (2026-10-24)
 
 Source [anthropics/skills](https://github.com/anthropics/skills) at `dbd4588f9e1033efb41dad4bef2f7947c8993d44` (2026-10-09, the tip of `main`).
 
-Grading used (the same for every source; the bar is in [library quality bar](library-quality-bar.md)): pass, borderline (soft problems only, or a reading of the bar that the owner decides) or fail (a hard limit broken). Overall is the worst point.
+Grading used (the same for every source; the bar is in [library quality bar](library-quality-bar.md)): pass, borderline (soft problems only, or a reading of the bar) or fail (a hard limit broken). Overall is the worst point.
 
 | Skill | 1 Runs as installed | 2 License | 3 Authoring | 4 Earns its place | 5 Maintained | Overall |
 |---|---|---|---|---|---|---|
@@ -60,10 +60,10 @@ Source notes:
 - DocOps (arXiv 2607.19865): the numbers in the Independent evidence section above match the paper; the skill version it used is not stated.
 - skills.sh (2026-10-24): docx 206.4K installs, pdf 216.2K, pptx 241.6K, xlsx 187.2K; Socket Warn on docx, pptx and xlsx.
 
-Removal: the four were removed on the owner's decision in [issue 151](https://github.com/ESchuderer/BenchKeeper/issues/151) and are in [library exclusions](library-exclusions.md).
+Removal: the four fail point 2 and are removed; see [library exclusions](library-exclusions.md).
 
 ## Decision
 
-Removed from the library (setup-v6.10, owner decision on [issue 151](https://github.com/ESchuderer/BenchKeeper/issues/151)): `docx`, `pdf`, `pptx` and `xlsx` fail point 2, their `LICENSE.txt` forbids copies outside the Anthropic services, derivative works and distribution. Claude Code keeps them through the claude.ai skills `anthropic-skills`. Not global, per project: the library lists `frontend-design` and `mcp-builder` for both agents. `doc-coauthoring` is left out: it has no license file.
+Removed from the library (setup-v6.10): `docx`, `pdf`, `pptx` and `xlsx` fail point 2, their `LICENSE.txt` forbids copies outside the Anthropic services, derivative works and distribution. Claude Code keeps them through the claude.ai skills `anthropic-skills`. Not global, per project: the library lists `frontend-design` and `mcp-builder` for both agents. `doc-coauthoring` is left out: it has no license file.
 
 [All evaluations](../../EVALUATIONS.md)

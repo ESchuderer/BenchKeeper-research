@@ -1,6 +1,6 @@
 # Security skills (Sentry, Trail of Bits)
 
-[Sentry repository](https://github.com/getsentry/skills), [Trail of Bits repository](https://github.com/trailofbits/skills), Category: skill libraries, Checked 2026-10-22 and 2026-10-24, Decision: Per project, security pack; `fp-check` removed (issue 151, setup-v6.10)
+[Sentry repository](https://github.com/getsentry/skills), [Trail of Bits repository](https://github.com/trailofbits/skills), Category: skill libraries, Checked 2026-10-22 and 2026-10-24, Decision: Per project, security pack; `fp-check` removed (setup-v6.10)
 
 Four skills from two sources (`fp-check` was removed from the library on 2026-10-25, three remain): `gha-security-review` (getsentry/skills, Apache-2.0), `fp-check`, `variant-analysis` and `sharp-edges` (trailofbits/skills, CC-BY-SA-4.0). Pinned commits from `library.json`: Sentry `c93fb1e82454278a0caeb08e062a75a2e18feebb` (2026-10-13), Trail of Bits `e1f86a390d4caf28bf1c377a7d86707b2898669c` (2026-10-14).
 
@@ -121,11 +121,11 @@ Per project, security pack: proposed when the repository exposes an API or confi
 - What an install needs: the license text (the repository LICENSE) next to each skill folder, a line naming Trail of Bits as creator with the source URL and pinned commit, and per-plugin authors where given (Maciej Domanski for fp-check, Axel Mierczuk for variant-analysis per their plugin metadata). The `setting-up-projects` step 5 already requires a license file next to a CC-BY or CC-BY-SA skill; the attribution line is not required there, and the library note says the copy "keeps its license and attribution", which holds only when that step runs. Edits to the installed skills (for example removing the dangling workflow sentence) count as modifications to indicate.
 - Sentry: Apache-2.0, license text from the repository root if the copy is redistributed; no attribution line required.
 
-## Quality bar check (issue 151, 2026-10-24)
+## Quality bar check (2026-10-24)
 
 Pins: getsentry/skills `c93fb1e82454278a0caeb08e062a75a2e18feebb` (2026-10-13), trailofbits/skills `e1f86a390d4caf28bf1c377a7d86707b2898669c` (2026-10-14).
 
-Grading used (the same for every source; the bar is in [library quality bar](library-quality-bar.md)): pass, borderline (soft problems only, or a reading of the bar that the owner decides) or fail (a hard limit broken). Overall is the worst point.
+Grading used (the same for every source; the bar is in [library quality bar](library-quality-bar.md)): pass, borderline (soft problems only, or a reading of the bar) or fail (a hard limit broken). Overall is the worst point.
 
 | Skill | 1 Runs as installed | 2 License | 3 Authoring | 4 Earns its place | 5 Maintained | Overall |
 |---|---|---|---|---|---|---|
@@ -148,7 +148,7 @@ Findings (every fail and borderline with file and line or URL):
 - `gha-security-review`: pass.
   - Other: 10 files, all inside the folder (`SKILL.md:72-80` paths exist); `curl | bash` hits are attack samples in `references/`. Two See-also links return 404 (`references/runner-infrastructure.md:268`, `references/real-world-attacks.md:296`), not relied on. Pin is 11 days old; 10 later commits, none in the folder.
 - `fp-check`: fail.
-  - Point 1, fail: The deep path delegates phases to `data-flow-analyzer`, `exploitability-verifier` and `poc-builder` (`skills/fp-check/SKILL.md:82`, `references/deep-verification.md:58, 64-70`), which live in `plugins/fp-check/agents/` (405 lines) and are not copied by the skills CLI. The standard path (`SKILL.md:59-69`) is self-contained and the deep phases are written out (`deep-verification.md:74-143`), so the skill degrades instead of stopping (unlike `dimensional-analysis`). The plugin `Stop` and `SubagentStop` hooks (`hooks/hooks.json:4-27`) are outside the folder, so an install adds none. Owner call: strict reading is fail.
+  - Point 1, fail: The deep path delegates phases to `data-flow-analyzer`, `exploitability-verifier` and `poc-builder` (`skills/fp-check/SKILL.md:82`, `references/deep-verification.md:58, 64-70`), which live in `plugins/fp-check/agents/` (405 lines) and are not copied by the skills CLI. The standard path (`SKILL.md:59-69`) is self-contained and the deep phases are written out (`deep-verification.md:74-143`), so the skill degrades instead of stopping (unlike `dimensional-analysis`). The plugin `Stop` and `SubagentStop` hooks (`hooks/hooks.json:4-27`) are outside the folder, so an install adds none. Grade: strict reading is fail.
   - Point 2, borderline: CC-BY-SA-4.0 (share-alike) only in the repository root `LICENSE` (`LICENSE:1`, `README.md:162-164`); no license file or `license:` field in the skill or plugin folder, so an install carries no license text. Matches `library.json`.
   - Point 3, borderline: Reference files link to each other (`standard-verification.md:7, 24, 35, 55, 78`, `deep-verification.md:60, 80, 92, 112, 139, 143`); 22 `{baseDir}` placeholders (substitution unverified).
 - `variant-analysis`: borderline.
@@ -166,11 +166,11 @@ Source notes:
 - Trail of Bits issues: fp-check plugin hooks fire in unrelated sessions and block stopping ([#143](https://github.com/trailofbits/skills/issues/143), [#289](https://github.com/trailofbits/skills/issues/289), [#342](https://github.com/trailofbits/skills/issues/342), open, fix PRs [#350](https://github.com/trailofbits/skills/pull/350), [#358](https://github.com/trailofbits/skills/pull/358)); the hooks sit in `plugins/fp-check/hooks/hooks.json`, outside the skill folder. [#376](https://github.com/trailofbits/skills/issues/376) lists the plugin's Claude-specific dependencies. The maintainer moves value into plugin workflows that a folder copy lacks ([#243](https://github.com/trailofbits/skills/pull/243), [#232](https://github.com/trailofbits/skills/pull/232)).
 - skills.sh (2026-10-24): `gha-security-review` 4.8K installs (Gen Agent Trust Hub fail, Socket warn, Snyk pass; the alerts come from attack samples in `references/`), `fp-check` 6.9K, `variant-analysis` 6.4K, `sharp-edges` 6.8K (Socket Warn).
 
-Removal: `fp-check` was removed on the owner's decision in [issue 151](https://github.com/ESchuderer/BenchKeeper/issues/151) and is in [library exclusions](library-exclusions.md); the borderline skills stay.
+Removal: `fp-check` is removed and listed in [library exclusions](library-exclusions.md); the borderline skills stay.
 
 ## Decision
 
-Security pack (setup-v6.0), per project: `gha-security-review` for repositories with workflows, `sharp-edges` for exposed APIs or configuration, `variant-analysis` for follow-up on a found vulnerability. `fp-check` (triage) was removed on 2026-10-25 because its deep verification loses its three agents on install. No independent evidence for any of the four. Open points for the owner:
+Security pack (setup-v6.0), per project: `gha-security-review` for repositories with workflows, `sharp-edges` for exposed APIs or configuration, `variant-analysis` for follow-up on a found vulnerability. `fp-check` (triage) was removed on 2026-10-25 because its deep verification loses its three agents on install. No independent evidence for any of the four. Open points:
 
 - `variant-analysis`: points to a workflow that is not installed, and the only maintainer data shows no uplift over an unaided model.
 - Attribution: add the license file and a creator line for the two remaining Trail of Bits skills at install, or drop them.

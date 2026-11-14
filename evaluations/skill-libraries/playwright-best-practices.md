@@ -19,11 +19,11 @@
 
 - Commit `283d5cbc5d11aac1abda058b16ad22c317d54dc0` (2026-07-21), MIT. No scripts. SKILL.md runs only `npx playwright test` variants and `show-trace`. No downloads, telemetry, credential requests or product links in SKILL.md and the reference files (grep). The README carries a tracked product link, which the install does not copy.
 
-## Quality bar check (issue 151, 2026-10-24)
+## Quality bar check (2026-10-24)
 
 Source [currents-dev/playwright-best-practices-skill](https://github.com/currents-dev/playwright-best-practices-skill) at `283d5cbc5d11aac1abda058b16ad22c317d54dc0` (2026-07-21, tip of `main`).
 
-Grading used (the same for every source; the bar is in [library quality bar](library-quality-bar.md)): pass, borderline (soft problems only, or a reading of the bar that the owner decides) or fail (a hard limit broken). Overall is the worst point.
+Grading used (the same for every source; the bar is in [library quality bar](library-quality-bar.md)): pass, borderline (soft problems only, or a reading of the bar) or fail (a hard limit broken). Overall is the worst point.
 
 | Skill | 1 Runs as installed | 2 License | 3 Authoring | 4 Earns its place | 5 Maintained | Overall |
 |---|---|---|---|---|---|---|
@@ -49,7 +49,7 @@ Source notes:
 - Measured at the pin, correcting the counts above: 58 reference files (26,051 lines, 16 of them over 500 lines), not 57. skills.sh showed 97.1K installs before this check.
 - Install history: issues 9 and 11 (the skills CLI installed only `SKILL.md`, leaving reference links broken) were fixed by moving the skill into `playwright-best-practices/` (commit 283d5cb, the pin). Issue 14 (2026-10-23, open) is an anecdotal user report.
 
-Removal: none made. The owner decides on the fails and borderline cases in [issue 151](https://github.com/ESchuderer/BenchKeeper/issues/151).
+Removal: none made.
 
 ## Decision
 

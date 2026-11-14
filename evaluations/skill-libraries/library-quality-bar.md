@@ -1,8 +1,8 @@
 # Library quality bar
 
-Category: skill libraries, Checked 2026-10-24 and 2026-10-25, Decision: The 7 skills that fail are removed (issue 151, setup-v6.10); 47 remain: 40 borderline, 7 pass
+Category: skill libraries, Checked 2026-10-24 and 2026-10-25, Decision: The 7 skills that fail are removed (setup-v6.10); 47 remain: 40 borderline, 7 pass
 
-Result of checking every skill in `plugins/benchkeeper/library/library.json` (54 skills, 12 sources, each at its pinned commit; the four ECC skills added in #247 were checked on 2026-10-25 by one reader, the other 50 on 2026-10-24) against the five-point bar of [issue 151](https://github.com/ESchuderer/BenchKeeper/issues/151). One Sonnet subagent per source read the skill folder at the pin and the source repository's metadata; each failure and borderline result below cites file and line or a URL in the source's evaluation file. The seven that failed are removed from the library (section Decision); the table keeps their results.
+Result of checking every skill in `plugins/benchkeeper/library/library.json` (54 skills, 12 sources, each at its pinned commit; the four ECC skills added in #247 were checked on 2026-10-25 by one reader, the other 50 on 2026-10-24) against the five-point bar ([the bar](#the-bar)). One Sonnet subagent per source read the skill folder at the pin and the source repository's metadata; each failure and borderline result below cites file and line or a URL in the source's evaluation file. The seven that failed are removed from the library (section Decision); the table keeps their results.
 
 ## The bar
 
@@ -86,9 +86,9 @@ Totals of the 54 checked: 7 fail, 40 borderline, 7 pass. The library has 47 skil
 - `pdf`, point 3: `SKILL.md:11, 307, 311-314` tell the agent to read `REFERENCE.md` and `FORMS.md`; the folder has `reference.md` and `forms.md` (git tree at the pin), so the links are dead on case-sensitive filesystems and form filling depends on `forms.md`. `forms.md:4` names `scripts/check_fillable_fields` without `.py`.
 - `pptx`, point 2: Same `LICENSE.txt` as `docx`: `:1`, `:16-17`, `:20`, `:21`.
 - `xlsx`, point 2: Same `LICENSE.txt` as `docx`: `:1`, `:16-17`, `:20`, `:21`.
-- `scientific-critical-thinking`, point 1: `SKILL.md:66-72` tells the agent to run `python skills/scientific-schematics/scripts/generate_schematic.py` from the repository root: a sibling skill that is not in this folder or the library, and it needs `OPENROUTER_API_KEY` and sends prompts to OpenRouter (`:78`). The section is optional, the script path is the preferred one. Owner call: fail or borderline.
-- `fp-check`, point 1: The deep path delegates phases to `data-flow-analyzer`, `exploitability-verifier` and `poc-builder` (`skills/fp-check/SKILL.md:82`, `references/deep-verification.md:58, 64-70`), which live in `plugins/fp-check/agents/` (405 lines) and are not copied by the skills CLI. The standard path (`SKILL.md:59-69`) is self-contained and the deep phases are written out (`deep-verification.md:74-143`), so the skill degrades instead of stopping (unlike `dimensional-analysis`). The plugin `Stop` and `SubagentStop` hooks (`hooks/hooks.json:4-27`) are outside the folder, so an install adds none. Owner call: strict reading is fail.
-- `tdd-workflow`, point 1: Step 0 runs `node scripts/setup-package-manager.js --detect` (`SKILL.md:95`), a script of the ECC plugin outside the folder; step 2 falls back to reading `package.json`, so it degrades. Open upstream [#3530](https://github.com/affaan-m/ECC/issues/3530), [#3545](https://github.com/affaan-m/ECC/issues/3545). Owner call: borderline if degradation counts (the same rule as `fp-check`).
+- `scientific-critical-thinking`, point 1: `SKILL.md:66-72` tells the agent to run `python skills/scientific-schematics/scripts/generate_schematic.py` from the repository root: a sibling skill that is not in this folder or the library, and it needs `OPENROUTER_API_KEY` and sends prompts to OpenRouter (`:78`). The section is optional, the script path is the preferred one. Grade: fail or borderline.
+- `fp-check`, point 1: The deep path delegates phases to `data-flow-analyzer`, `exploitability-verifier` and `poc-builder` (`skills/fp-check/SKILL.md:82`, `references/deep-verification.md:58, 64-70`), which live in `plugins/fp-check/agents/` (405 lines) and are not copied by the skills CLI. The standard path (`SKILL.md:59-69`) is self-contained and the deep phases are written out (`deep-verification.md:74-143`), so the skill degrades instead of stopping (unlike `dimensional-analysis`). The plugin `Stop` and `SubagentStop` hooks (`hooks/hooks.json:4-27`) are outside the folder, so an install adds none. Grade: strict reading is fail.
+- `tdd-workflow`, point 1: Step 0 runs `node scripts/setup-package-manager.js --detect` (`SKILL.md:95`), a script of the ECC plugin outside the folder; step 2 falls back to reading `package.json`, so it degrades. Open upstream [#3530](https://github.com/affaan-m/ECC/issues/3530), [#3545](https://github.com/affaan-m/ECC/issues/3545). Grade: borderline if degradation counts (the same rule as `fp-check`).
 - `tdd-workflow`, point 3: 583 lines, no reference files (`SKILL.md:1-583`).
 
 ## Pass
@@ -97,9 +97,9 @@ Totals of the 54 checked: 7 fail, 40 borderline, 7 pass. The library has 47 skil
 
 ## Judgment calls
 
-Grades that depend on a reading of the bar. The owner decided on 2026-10-25 to follow the bar as written, so the strict readings below (`fp-check`, `scientific-critical-thinking`, `tdd-workflow`) count as fail and those skills are removed.
+Grades that depend on a reading of the bar. The bar is followed as written, so the strict readings below (`fp-check`, `scientific-critical-thinking`, `tdd-workflow`) count as fail and those skills are removed.
 
-- `mcp-builder` point 1 (borderline): it fetches the SDK READMEs from `main` branch URLs on every run (`SKILL.md:61, 65, 212-213`). They are documentation, not rules, but the Vercel skills were left out for fetching from a branch URL (`library-exclusions.md`). Fail if the owner counts documentation.
+- `mcp-builder` point 1 (borderline): it fetches the SDK READMEs from `main` branch URLs on every run (`SKILL.md:61, 65, 212-213`). They are documentation, not rules, but the Vercel skills were left out for fetching from a branch URL (`library-exclusions.md`). Fail if documentation counts.
 - `fp-check` point 1 (fail): the strict reading. The standard path is self-contained and the deep phases are written out (`deep-verification.md:74-143`), so it degrades; `dimensional-analysis` could not run at all. Borderline if degradation counts.
 - `scientific-critical-thinking` point 1 (fail): the optional schematic step runs a script of a sibling skill (`SKILL.md:66-72`) that needs `OPENROUTER_API_KEY`. Borderline if an optional step does not count.
 - Where point 1 separates fail from borderline: the workflow tells the agent to run, or to delegate to, something outside the folder (fail: `fp-check`, `scientific-critical-thinking`, `tdd-workflow`), against a read-only pointer to a document outside the folder or a step that works without it (borderline: the four marketing skills below, `variant-analysis`, `incident-response`, `synthesize-research`, `verification-loop`, `architecture-decision-records`). The subagents graded the four marketing skills fail; they were set to borderline after reading the links, which only point to partner tool guides.
@@ -120,7 +120,7 @@ The counts include the seven removed skills.
 - Point 4, Earns its place (26 borderline): partial overlap with a library neighbour (`tdd-workflow` and `verification-loop` against the Matt Pocock `tdd` and the own `workflow` checks, `architecture-decision-records` against `domain-modeling`, `statistical-analysis` and `statistical-power`, `paper-lookup` and `citation-management`, `scientific-writing` and `venue-templates`, `scientific-critical-thinking`, `markitdown` and the Anthropic document skills, `copywriting` and `copy-editing` and `cro`, `compliance-check` and `gdpr-compliant`, `validate-data`, `synthesize-research`, `frontend-design` and `designing-technical-uis`), the maintainer's own eval shows no uplift (`variant-analysis`), a CRITICAL scan result (`directory-submissions`)
 - Point 5, Maintained (1 borderline): `mermaid-diagrams` only: no repository commit for 233 days
 
-Defects worth the owner's attention among the borderline skills (each is in the source's evaluation file):
+Defects among the borderline skills (each is in the source's evaluation file):
 
 - `ai-seo`: the pin still gives robots.txt advice that issue marketingskills#599 reported as wrong; the default branch fixed it (2.10.1). Re-pin before keeping it.
 - `directory-submissions`: skills.sh Gen Agent Trust Hub Fail (CRITICAL, 2026-10-22), 27 dead or silent URLs in the tracker CSV the workflow uses.
@@ -135,6 +135,6 @@ Defects worth the owner's attention among the borderline skills (each is in the 
 
 ## Decision
 
-Owner decision on [issue 151](https://github.com/ESchuderer/BenchKeeper/issues/151): follow the bar as written. Removed from `library.json` and the packs: `docx`, `pdf`, `pptx`, `xlsx` (point 2, license forbids redistribution), `scientific-critical-thinking`, `fp-check` and `tdd-workflow` (point 1, files they need outside their folder). Each is in [library exclusions](library-exclusions.md) with the reason and the upstream issue where one exists; a skill can come back when upstream removes the cause. The library has 47 skills: 40 borderline, 7 pass. The borderline skills stay with their recorded defects. Open for the owner: `ai-seo` needs a re-pin for the robots.txt advice, and `mcp-builder` and `directory-submissions` are the first borderline cases to decide.
+The bar is followed as written. Removed from `library.json` and the packs: `docx`, `pdf`, `pptx`, `xlsx` (point 2, license forbids redistribution), `scientific-critical-thinking`, `fp-check` and `tdd-workflow` (point 1, files they need outside their folder). Each is in [library exclusions](library-exclusions.md) with the reason and the upstream issue where one exists; a skill can come back when upstream removes the cause. The library has 47 skills: 40 borderline, 7 pass. The borderline skills stay with their recorded defects. Open: `ai-seo` needs a re-pin for the robots.txt advice, and `mcp-builder` and `directory-submissions` are the first borderline cases to decide.
 
 [All evaluations](../../EVALUATIONS.md)
