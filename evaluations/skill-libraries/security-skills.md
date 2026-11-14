@@ -148,7 +148,7 @@ Findings (every fail and borderline with file and line or URL):
 - `gha-security-review`: pass.
   - Other: 10 files, all inside the folder (`SKILL.md:72-80` paths exist); `curl | bash` hits are attack samples in `references/`. Two See-also links return 404 (`references/runner-infrastructure.md:268`, `references/real-world-attacks.md:296`), not relied on. Pin is 11 days old; 10 later commits, none in the folder.
 - `fp-check`: fail.
-  - Point 1, fail: The deep path delegates phases to `data-flow-analyzer`, `exploitability-verifier` and `poc-builder` (`skills/fp-check/SKILL.md:82`, `references/deep-verification.md:58, 64-70`), which live in `plugins/fp-check/agents/` (405 lines) and are not copied by the skills CLI. The standard path (`SKILL.md:59-69`) is self-contained and the deep phases are written out (`deep-verification.md:74-143`), so the skill degrades instead of stopping (unlike `dimensional-analysis`). The plugin `Stop` and `SubagentStop` hooks (`hooks/hooks.json:4-27`) are outside the folder, so an install adds none. Owner call: strict reading is fail.
+  - Point 1, fail: The deep path delegates phases to `data-flow-analyzer`, `exploitability-verifier` and `poc-builder` (`skills/fp-check/SKILL.md:82`, `references/deep-verification.md:58, 64-70`), which live in `plugins/fp-check/agents/` (405 lines) and are not copied by the skills CLI. The standard path (`SKILL.md:59-69`) is self-contained and the deep phases are written out (`deep-verification.md:74-143`), so the skill degrades instead of stopping (unlike `dimensional-analysis`). The plugin `Stop` and `SubagentStop` hooks (`hooks/hooks.json:4-27`) are outside the folder, so an install adds none. Grade: strict reading is fail.
   - Point 2, borderline: CC-BY-SA-4.0 (share-alike) only in the repository root `LICENSE` (`LICENSE:1`, `README.md:162-164`); no license file or `license:` field in the skill or plugin folder, so an install carries no license text. Matches `library.json`.
   - Point 3, borderline: Reference files link to each other (`standard-verification.md:7, 24, 35, 55, 78`, `deep-verification.md:60, 80, 92, 112, 139, 143`); 22 `{baseDir}` placeholders (substitution unverified).
 - `variant-analysis`: borderline.
@@ -170,7 +170,7 @@ Removal: `fp-check` is removed and listed in [library exclusions](library-exclus
 
 ## Decision
 
-Security pack (setup-v6.0), per project: `gha-security-review` for repositories with workflows, `sharp-edges` for exposed APIs or configuration, `variant-analysis` for follow-up on a found vulnerability. `fp-check` (triage) was removed on 2026-10-25 because its deep verification loses its three agents on install. No independent evidence for any of the four. Open points for the owner:
+Security pack (setup-v6.0), per project: `gha-security-review` for repositories with workflows, `sharp-edges` for exposed APIs or configuration, `variant-analysis` for follow-up on a found vulnerability. `fp-check` (triage) was removed on 2026-10-25 because its deep verification loses its three agents on install. No independent evidence for any of the four. Open points:
 
 - `variant-analysis`: points to a workflow that is not installed, and the only maintainer data shows no uplift over an unaided model.
 - Attribution: add the license file and a creator line for the two remaining Trail of Bits skills at install, or drop them.

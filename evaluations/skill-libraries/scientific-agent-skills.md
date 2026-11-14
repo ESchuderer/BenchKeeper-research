@@ -63,7 +63,7 @@ Measured at the pin:
 Findings (every fail and borderline with file and line or URL):
 
 - `scientific-critical-thinking`: fail.
-  - Point 1, fail: `SKILL.md:66-72` tells the agent to run `python skills/scientific-schematics/scripts/generate_schematic.py` from the repository root: a sibling skill that is not in this folder or the library, and it needs `OPENROUTER_API_KEY` and sends prompts to OpenRouter (`:78`). The section is optional, the script path is the preferred one. Owner call: fail or borderline.
+  - Point 1, fail: `SKILL.md:66-72` tells the agent to run `python skills/scientific-schematics/scripts/generate_schematic.py` from the repository root: a sibling skill that is not in this folder or the library, and it needs `OPENROUTER_API_KEY` and sends prompts to OpenRouter (`:78`). The section is optional, the script path is the preferred one. Grade: fail or borderline.
   - Point 3, borderline: No "use when" clause in the description (`:3`); `:142` "ROBINS-I V2 November 2025 draft" ages.
   - Point 4, borderline: The description (`:3`) lists "experimental design validity" and "statistical interpretation", the same subjects as `experimental-design` and `statistical-analysis` (`SKILL.md:3` of both); it hands peer review writing to `peer-review`. Distinct core: judging claims, bias, GRADE.
 - `experimental-design`: borderline.

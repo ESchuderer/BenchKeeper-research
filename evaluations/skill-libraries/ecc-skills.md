@@ -46,7 +46,7 @@ The pin is 24 days old on an active branch, so point 5 passes for all four.
 
 ### Fails
 
-- `tdd-workflow`, point 1: Step 0 tells the agent to run `node scripts/setup-package-manager.js --detect` (`SKILL.md:95`), a script of the ECC plugin that the skills CLI does not copy; it also resolves `CLAUDE_PACKAGE_MANAGER` and `.claude/package-manager.json` (`:98`). Step 2 (`:97-102`) falls back to reading `package.json` and the test files, so the skill degrades instead of stopping. Reported upstream as open [#3530](https://github.com/affaan-m/ECC/issues/3530) and [#3545](https://github.com/affaan-m/ECC/issues/3545); `main` has the same line. Owner call: fail on the strict reading (the same rule as `fp-check`), borderline if degradation counts.
+- `tdd-workflow`, point 1: Step 0 tells the agent to run `node scripts/setup-package-manager.js --detect` (`SKILL.md:95`), a script of the ECC plugin that the skills CLI does not copy; it also resolves `CLAUDE_PACKAGE_MANAGER` and `.claude/package-manager.json` (`:98`). Step 2 (`:97-102`) falls back to reading `package.json` and the test files, so the skill degrades instead of stopping. Reported upstream as open [#3530](https://github.com/affaan-m/ECC/issues/3530) and [#3545](https://github.com/affaan-m/ECC/issues/3545); `main` has the same line. Grade: fail on the strict reading (the same rule as `fp-check`), borderline if degradation counts.
 - `tdd-workflow`, point 3: 583 lines (`SKILL.md:1-583`) with no reference files, over the limit of 500 lines. Also dated text: `codecov/codecov-action@v3` (`:556`).
 
 ### Borderline
