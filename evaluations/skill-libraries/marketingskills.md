@@ -12,11 +12,11 @@
 
 The owner used nine of these skills, installed globally, in one marketing project (PiMetry): 1 call each in the session transcripts of 2026-09-29 to 2026-10-18, `copywriting` 3.
 
-## Quality bar check (issue 151, 2026-10-24)
+## Quality bar check (2026-10-24)
 
 Source [coreyhaines31/marketingskills](https://github.com/coreyhaines31/marketingskills) at `ad6903e9b89caa5e06e2032793a0deb5dab2cdb4` (2026-10-15).
 
-Grading used (the same for every source; the bar is in [library quality bar](library-quality-bar.md)): pass, borderline (soft problems only, or a reading of the bar that the owner decides) or fail (a hard limit broken). Overall is the worst point.
+Grading used (the same for every source; the bar is in [library quality bar](library-quality-bar.md)): pass, borderline (soft problems only, or a reading of the bar) or fail (a hard limit broken). Overall is the worst point.
 
 | Skill | 1 Runs as installed | 2 License | 3 Authoring | 4 Earns its place | 5 Maintained | Overall |
 |---|---|---|---|---|---|---|
@@ -63,7 +63,7 @@ Findings (every fail and borderline with file and line or URL):
 - `seo-audit`: borderline.
   - Point 3, borderline: 499 lines (limit 500, two references); dated text at `SKILL.md:216` ("Google's 2025 stance") and `references/international-seo.md:162, 183-185, 204`.
 - `ai-seo`: borderline.
-  - Point 1, borderline: `SKILL.md:458` links `../../tools/REGISTRY.md` and the table below it has no in-folder guide (optional partner tool links; owner call: fail or borderline); `SKILL.md:280` and `references/agent-readiness.md:9` run `npx is-agentic <domain>` (unpinned).
+  - Point 1, borderline: `SKILL.md:458` links `../../tools/REGISTRY.md` and the table below it has no in-folder guide (optional partner tool links; fail or borderline); `SKILL.md:280` and `references/agent-readiness.md:9` run `npx is-agentic <domain>` (unpinned).
   - Point 3, borderline: Description 1,004 of 1,024 characters; 487 lines; 60 dated lines (`SKILL.md:63` "Dec 2025 data", `:255` "Aug 2026", `:324` "June 2026", `:361` "forthcoming protocol", `:371` model-version claims); nested references (`references/positioning-and-consensus.md:59, 90`, `platform-ranking-factors.md:95`, `format-volatility.md:3, 63`).
   - Other: The pin still has the robots.txt advice that issue #599 reported (training bots named as citation bots: `SKILL.md:161-164, 427, 450`, `references/platform-ranking-factors.md:122-127`), fixed at the tip (ai-seo 2.10.1). 11 commits touched the folder since the pin: re-pin before keeping it.
 - `schema`: pass.
@@ -71,7 +71,7 @@ Findings (every fail and borderline with file and line or URL):
   - Point 1, borderline: `SKILL.md:96` points to `../../tools/integrations/introw.md`, a repo-level file not in the folder; one optional parenthetical, the rest of the workflow is in the folder.
 - `site-architecture`: pass.
 - `content-strategy`: borderline.
-  - Point 1, borderline: `references/headless-cms.md:192-194` links `../../../tools/integrations/{sanity,contentful,strapi}.md`, not in the folder (optional; owner call: fail or borderline).
+  - Point 1, borderline: `references/headless-cms.md:192-194` links `../../../tools/integrations/{sanity,contentful,strapi}.md`, not in the folder (optional; fail or borderline).
   - Point 3, borderline: 439 lines (400 to 500 band); `SKILL.md:129` "Foundation Inc.'s ... Report (March 2026 ...)".
 - `cro`: borderline.
   - Point 4, borderline: Partial overlap with `copywriting` on page text (headline and CTA rubric `SKILL.md:41-63` against `copywriting/SKILL.md:3`).
@@ -80,7 +80,7 @@ Findings (every fail and borderline with file and line or URL):
   - Point 3, borderline: Dated claims at `SKILL.md:146, 177, 196, 239, 249, 291, 330, 341` ("2026 PH algorithm", "G2 ... as of Feb 2026"); `references/submission-tracker-template.csv` has 14 URLs that return 404 (for example line 6, 79) and 13 with no response (lines 10, 46, 67).
   - Point 4, borderline: Shares "Product Hunt" and launch directories with `launch`. skills.sh Gen Agent Trust Hub Fail (CRITICAL) on 2026-10-22 flagged the domain fitprofessionals.net (`csv:271`) and the csv (FileRepMalware): not verified, scanned a newer version; https://www.skills.sh/coreyhaines31/marketingskills/directory-submissions/security/agent-trust-hub
 - `analytics`: borderline.
-  - Point 1, borderline: `SKILL.md:292` links `../../tools/REGISTRY.md` and the table at `:296-300` links five files `../../tools/integrations/{ga4,mixpanel,amplitude,posthog,segment}.md`, none in the folder; its own `references/` exist (optional partner tool links; owner call: fail or borderline).
+  - Point 1, borderline: `SKILL.md:292` links `../../tools/REGISTRY.md` and the table at `:296-300` links five files `../../tools/integrations/{ga4,mixpanel,amplitude,posthog,segment}.md`, none in the folder; its own `references/` exist (optional partner tool links; fail or borderline).
 
 Source notes:
 
@@ -91,7 +91,7 @@ Source notes:
 - skills.sh (2026-10-24): 77.3K (`launch`) to 236.2K (`seo-audit`) installs; all scans pass except Snyk Warn (W011) on `seo-audit`, `content-strategy`, `cro`, and Gen Agent Trust Hub Fail plus Snyk Warn on `directory-submissions`.
 - Independent: one practitioner write-up covers CRO and programmatic SEO, not this set ([mejba.me](https://www.mejba.me/blog/claude-code-marketing-powerhouse), 2026-03-05). Third-party issues: #599 (`ai-seo` bot guidance, fixed later), #520 (QA bot grade C), #450, #243. Link check: 368 URLs, dozens of dead directory submit pages (`directory-submissions` only).
 
-Removal: none made. The owner decides on the fails and borderline cases in [issue 151](https://github.com/ESchuderer/BenchKeeper/issues/151).
+Removal: none made.
 
 ## Decision
 

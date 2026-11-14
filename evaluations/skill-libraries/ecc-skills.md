@@ -1,6 +1,6 @@
 # ECC skills (verification-loop, error-handling, architecture-decision-records; tdd-workflow removed)
 
-[Repository](https://github.com/affaan-m/ECC), Category: skill libraries, Checked 2026-10-25, Decision: Pack `ecc` (owner names ECC) with three skills; `tdd-workflow` removed (issue 151, setup-v6.10)
+[Repository](https://github.com/affaan-m/ECC), Category: skill libraries, Checked 2026-10-25, Decision: Pack `ecc` with three skills; `tdd-workflow` removed (setup-v6.10)
 
 Three single skills of ECC's `workflow-quality` module (a fourth, `tdd-workflow`, was added in #247 and removed for failing the quality bar), installed without the plugin (`plugins/benchkeeper/library/library.json`, pack `ecc`, added in #247 after the first quality bar check of 50 skills). The ECC bundle itself is evaluated under "ECC" in [EVALUATIONS.md](../../EVALUATIONS.md): no outcome measurement, hook and listing overhead reported.
 
@@ -22,9 +22,9 @@ Three single skills of ECC's `workflow-quality` module (a fourth, `tdd-workflow`
 - None found for `error-handling` and `architecture-decision-records`.
 - The repository is active: not archived, default branch `main`, MIT, pushed 2026-10-25.
 
-## Quality bar check (issue 151, 2026-10-25)
+## Quality bar check (2026-10-25)
 
-Source [affaan-m/ECC](https://github.com/affaan-m/ECC) at `c05b2d6614f62f6db0047669aa4eefb223d478f9` (2026-10-01). Grading is the one of [library quality bar](library-quality-bar.md): pass, borderline (soft problems, or a reading of the bar the owner decides) or fail (a hard limit broken). Overall is the worst point. Each folder holds only `SKILL.md`; the file is read at the pin.
+Source [affaan-m/ECC](https://github.com/affaan-m/ECC) at `c05b2d6614f62f6db0047669aa4eefb223d478f9` (2026-10-01). Grading is the one of [library quality bar](library-quality-bar.md): pass, borderline (soft problems, or a reading of the bar) or fail (a hard limit broken). Overall is the worst point. Each folder holds only `SKILL.md`; the file is read at the pin.
 
 | Skill | 1 Runs as installed | 2 License | 3 Authoring | 4 Earns its place | 5 Maintained | Overall |
 |---|---|---|---|---|---|---|
@@ -68,6 +68,6 @@ The pin is 24 days old on an active branch, so point 5 passes for all four.
 
 ## Decision
 
-Removed from the library (setup-v6.10, owner decision on [issue 151](https://github.com/ESchuderer/BenchKeeper/issues/151)): `tdd-workflow` fails points 1 and 3 (script outside the folder, 583 lines, open upstream bugs) and is in [library exclusions](library-exclusions.md). Kept: `error-handling` (pass), `verification-loop` and `architecture-decision-records` (borderline, overlap with a skill the user has already chosen).
+Removed from the library (setup-v6.10): `tdd-workflow` fails points 1 and 3 (script outside the folder, 583 lines, open upstream bugs) and is in [library exclusions](library-exclusions.md). Kept: `error-handling` (pass), `verification-loop` and `architecture-decision-records` (borderline, overlap with a skill the user has already chosen).
 
 [All evaluations](../../EVALUATIONS.md)
